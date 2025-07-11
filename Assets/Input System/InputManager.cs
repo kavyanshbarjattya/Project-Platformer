@@ -45,6 +45,7 @@ public class InputManager : MonoBehaviour
 
         _jumpAction.performed += context => JumpInput = true;
         _jumpAction.canceled += context => JumpInput = false;
+
     }
 
     private void OnEnable()
