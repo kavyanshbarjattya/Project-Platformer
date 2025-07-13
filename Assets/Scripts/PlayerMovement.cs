@@ -7,6 +7,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] LayerMask _groundLayer;
     [SerializeField] Transform _groundCheck;
     [SerializeField] Rigidbody2D _rb;
+    [SerializeField] SpriteRenderer _playerSprite;
+
+    public bool flipX;
 
     float _currentSpeed;
 
@@ -14,7 +17,21 @@ public class PlayerMovement : MonoBehaviour
     {
         _currentSpeed = 0;
     }
+    private void Update()
+    {
+        if (_playerSprite != null)
+        {
 
+            if (flipX)
+            {
+                _playerSprite.flipX = true;
+            }
+            else
+            {
+                _playerSprite.flipX = false;
+            }
+        }
+    }
     private void FixedUpdate()
     {
         Move();
@@ -31,10 +48,12 @@ public class PlayerMovement : MonoBehaviour
         if (InputManager._instance.MoveInput.x > 0)
         {
             _currentSpeed = _playerSpeed * InputManager._instance.MoveInput.x;
+            flipX = false;
         }
         else if (InputManager._instance.MoveInput.x < 0)
         {
             _currentSpeed = _playerSpeed * InputManager._instance.MoveInput.x;
+            flipX = true;
         }
         transform.position += new Vector3(_currentSpeed * Time.deltaTime, transform.position.y, 0);
     }
