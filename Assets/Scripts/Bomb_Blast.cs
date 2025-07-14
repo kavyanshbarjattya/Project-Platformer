@@ -37,9 +37,18 @@ public class Bomb_Blast : MonoBehaviour
                 if (_remainingHealth <= 0)
                 {
                     Destroy(c.gameObject);
+
+                }
+                PlayerHealth _ph = c.GetComponent<PlayerHealth>();
+                int _remainingPlayerHealth = _ph.TakeDamage(_damage);
+                if (_remainingPlayerHealth <= 0)
+                {
+                    Destroy(c.gameObject);
+
                 }
 
             }
+
         }
         Destroy(gameObject);
     }
