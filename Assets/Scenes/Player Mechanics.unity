@@ -236,6 +236,12 @@ MonoBehaviour:
     _total_enemies: 2
   - level_number: 1
     _total_enemies: 2
+  - level_number: 2
+    _total_enemies: 2
+  - level_number: 3
+    _total_enemies: 2
+  - level_number: 4
+    _total_enemies: 2
   _currentLevel: 0
 --- !u!1 &228253386
 GameObject:
