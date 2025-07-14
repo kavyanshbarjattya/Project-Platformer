@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
-    [SerializeField] int _health;
+    public int _health;
 
 
-    int _currentHealth;
+    public int _currentHealth;
 
 
     private void Start()
@@ -13,6 +13,14 @@ public class PlayerHealth : MonoBehaviour
         _currentHealth = _health;
     }
 
+    private void Update()
+    {
+        if(_currentHealth == 0)
+        {
+            // Game Over Screen Activate
+            Time.timeScale = 0;
+        }
+    }
 
     public int TakeDamage(int damage)
     {

@@ -4,10 +4,12 @@ public class BombSpawner : MonoBehaviour
 {
     [SerializeField] GameObject _bomb;
     [SerializeField] Transform _playerTrans;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public int _bombSpawnLimitation;
+    public int _currentLimit;
+
+    private void Start()
     {
-        
+        _currentLimit = _bombSpawnLimitation;
     }
 
     // Update is called once per frame
@@ -16,11 +18,17 @@ public class BombSpawner : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
         {
             PlantBomb(_bomb);
+
         }
     }
 
     void PlantBomb(GameObject g)
     {
-        Instantiate(g,_playerTrans.position,Quaternion.identity);
+        if (_currentLimit > 0)
+        {
+            Instantiate(g, _playerTrans.position, Quaternion.identity);
+            _currentLimit--;
+        }
+
     }
 }

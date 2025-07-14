@@ -13,8 +13,12 @@ public class Bomb_Blast : MonoBehaviour
     [SerializeField] LayerMask _canDamageLayer;
     [SerializeField] int _damage;
 
+    [SerializeField] BombSpawner _bombSpawner;
+    [SerializeField] Game_Wining _gameWinning;
     private void OnEnable()
     {
+        _bombSpawner = FindAnyObjectByType<BombSpawner>();
+        _gameWinning = FindAnyObjectByType<Game_Wining>();
         StartCoroutine(TimerForBlast());
     }
 
@@ -40,6 +44,7 @@ public class Bomb_Blast : MonoBehaviour
                     if (_remainingHealth <= 0)
                     {
                         Destroy(c.gameObject);
+                        _gameWinning.levelInfo[_gameWinning._currentLevel]._total_enemies--;
 
                     }
                 }
@@ -58,6 +63,7 @@ public class Bomb_Blast : MonoBehaviour
 
         }
         Destroy(gameObject);
+        _bombSpawner._currentLimit++;
     }
 
     private void OnDrawGizmos()

@@ -9,9 +9,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] Rigidbody2D _rb;
     [SerializeField] SpriteRenderer _playerSprite;
 
+
     public bool flipX;
 
-    float _currentSpeed;
+    public float _currentSpeed;
 
     private void Start()
     {
@@ -31,6 +32,7 @@ public class PlayerMovement : MonoBehaviour
                 _playerSprite.flipX = false;
             }
         }
+
     }
     private void FixedUpdate()
     {
@@ -55,7 +57,9 @@ public class PlayerMovement : MonoBehaviour
             _currentSpeed = _playerSpeed * InputManager._instance.MoveInput.x;
             flipX = true;
         }
-        transform.position += new Vector3(_currentSpeed * Time.deltaTime, transform.position.y, 0);
+        Vector3 pos = transform.position;
+        pos.x += _currentSpeed * Time.deltaTime;
+        transform.position = pos;
     }
 
     bool RaycastDetection()
