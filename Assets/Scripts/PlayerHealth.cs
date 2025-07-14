@@ -20,6 +20,7 @@ public class PlayerHealth : MonoBehaviour
         {
             _currentHealth -= damage;
         }
+        Debug.Log(gameObject.name + "'s health: " + _currentHealth);
         return _currentHealth;
     }
 }

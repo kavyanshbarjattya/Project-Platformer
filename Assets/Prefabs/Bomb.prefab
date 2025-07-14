@@ -167,7 +167,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _delay: 3
   _blastRadius: 3
-  _enemyLayer:
+  _canDamageLayer:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 640
   _damage: 1

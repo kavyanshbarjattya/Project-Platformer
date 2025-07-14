@@ -10,7 +10,7 @@ public class Bomb_Blast : MonoBehaviour
     [Tooltip("How much area can bomb affect")]
     [SerializeField] float _blastRadius;
 
-    [SerializeField] LayerMask _enemyLayer;
+    [SerializeField] LayerMask _canDamageLayer;
     [SerializeField] int _damage;
 
     private void OnEnable()
@@ -27,26 +27,33 @@ public class Bomb_Blast : MonoBehaviour
 
     void BombDamage()
     {
-        Collider2D[] col = Physics2D.OverlapCircleAll(transform.position, _blastRadius, _enemyLayer);
+        Collider2D[] col = Physics2D.OverlapCircleAll(transform.position, _blastRadius , _canDamageLayer);
         foreach (Collider2D c in col)
         {
             if (c != null)
             {
+
                 EnemyHealth enemyHealth = c.GetComponent<EnemyHealth>();
-                int _remainingHealth = enemyHealth.TakeDamage(_damage);
-                if (_remainingHealth <= 0)
+                if (enemyHealth != null)
                 {
-                    Destroy(c.gameObject);
+                    int _remainingHealth = enemyHealth.TakeDamage(_damage);
+                    if (_remainingHealth <= 0)
+                    {
+                        Destroy(c.gameObject);
 
+                    }
                 }
-                PlayerHealth _ph = c.GetComponent<PlayerHealth>();
-                int _remainingPlayerHealth = _ph.TakeDamage(_damage);
-                if (_remainingPlayerHealth <= 0)
+                    PlayerHealth _ph = c.GetComponent<PlayerHealth>();
+                if (_ph != null)
                 {
-                    Destroy(c.gameObject);
 
+                    int _remainingPH = _ph.TakeDamage(_damage);
+                    if (_remainingPH <= 0)
+                    {
+                        Destroy(c.gameObject);
+
+                    }
                 }
-
             }
 
         }
