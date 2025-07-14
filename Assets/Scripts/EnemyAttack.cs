@@ -20,7 +20,7 @@ public class EnemyAttack : MonoBehaviour
         {
             KickBack();
             int _remainingHealth = _playerHealth.TakeDamage(_damage);
-            if (_remainingHealth < 0)
+            if (_remainingHealth <= 0)
             {
                 Destroy(collision.gameObject);
             }
