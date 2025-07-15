@@ -5,7 +5,8 @@ public class BombSpawner : MonoBehaviour
     [SerializeField] GameObject _bomb;
     [SerializeField] Transform _playerTrans;
     public int _bombSpawnLimitation;
-    public int _currentLimit;
+
+    [HideInInspector] public int _currentLimit;
 
     private void Start()
     {

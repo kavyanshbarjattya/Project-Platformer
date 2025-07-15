@@ -5,6 +5,7 @@ public class LevelTransition : MonoBehaviour
     [SerializeField] Transform[] _levelTrans;
     [SerializeField] float _cameraMoveSpeed = 2f;
     [SerializeField] Vector3 _cameraOffset;
+    [SerializeField] GameObject _winScreen;
 
     int _levelIndex = 0;
     bool _isTransition = false;
@@ -12,15 +13,13 @@ public class LevelTransition : MonoBehaviour
 
     private void Start()
     {
-        transform.position = _levelTrans[_levelIndex].position + _cameraOffset;
+        _targetPosition = _levelTrans[_levelIndex].position + _cameraOffset;
+        transform.position = _targetPosition;
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            StartTransition();
-        }
+
 
         if (_isTransition)
         {
@@ -33,20 +32,21 @@ public class LevelTransition : MonoBehaviour
         if (_levelIndex < _levelTrans.Length - 1)
         {
             _levelIndex++;
-            _targetPosition = _levelTrans[_levelIndex].position + _cameraOffset;
+            _targetPosition = new Vector3(transform.position.x, _levelTrans[_levelIndex].position.y + _cameraOffset.y, transform.position.z);
             _isTransition = true;
         }
         else
         {
-            Debug.Log("No more levels!");
+            Time.timeScale = 0;
+            _winScreen.SetActive(true);
         }
     }
 
     void MoveCamera()
     {
-        transform.position = Vector3.MoveTowards(transform.position, _targetPosition, _cameraMoveSpeed * Time.deltaTime);
+        transform.position = Vector3.Lerp(transform.position, _targetPosition, _cameraMoveSpeed * Time.deltaTime);
 
-        if (Vector3.Distance(transform.position, _targetPosition) < 0.01f)
+        if (Vector3.Distance(transform.position, _targetPosition) < 0.05f)
         {
             transform.position = _targetPosition;
             _isTransition = false;

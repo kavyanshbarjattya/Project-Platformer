@@ -9,6 +9,9 @@ public class Game_Wining : MonoBehaviour
     [SerializeField] Transform _playerTrans;
     [SerializeField] Transform[] _spawnPoints;
     [SerializeField] PlayerMovement _playerMovement;
+    [SerializeField] GameObject _instructionUi;
+    [SerializeField] AudioSource _levelComplete;
+    [SerializeField] AudioClip _winClip;
 
     public LevelInfo[] levelInfo;
 
@@ -20,6 +23,7 @@ public class Game_Wining : MonoBehaviour
     {
         levelInfo[_currentLevel].level_number = _currentLevel;
         _playerTrans.position = _spawnPoints[_currentLevel].position;
+        _instructionUi.SetActive(true);
     }
 
     private void Update()
@@ -27,21 +31,23 @@ public class Game_Wining : MonoBehaviour
         if (levelInfo[_currentLevel]._total_enemies == 0 && _currentLevel < levelInfo.Length - 1)
         {
             Debug.Log("Level Completed");
+            _levelComplete.clip = _winClip;
+            _levelComplete.Play();
+            _instructionUi.SetActive(false);
             _currentLevel++;
             levelInfo[_currentLevel].level_number = _currentLevel;
             _levelTransition.StartTransition();
-            print(levelInfo[_currentLevel].level_number);
             ResetValues();
         }
     }
 
     private void ResetValues()
     {
-        _timer.timerIsRunning = false;
         _ph._currentHealth = _ph._health;
         _bombSpawner._currentLimit = _bombSpawner._bombSpawnLimitation;
         _playerTrans.position = _spawnPoints[_currentLevel].position;
         _playerMovement._currentSpeed = 0;
+        _timer._currentTime = _timer.timeRemaining;
     }
 }
 

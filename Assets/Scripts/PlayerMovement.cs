@@ -8,15 +8,22 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] Transform _groundCheck;
     [SerializeField] Rigidbody2D _rb;
     [SerializeField] SpriteRenderer _playerSprite;
-
+    [SerializeField] Animator _playerAnim;
+    [SerializeField] Timer _timer;
 
     public bool flipX;
 
-    public float _currentSpeed;
+    [HideInInspector] public float _currentSpeed;
+
+    private void Awake()
+    {
+        _playerAnim = GetComponentInChildren<Animator>();
+    }
 
     private void Start()
     {
         _currentSpeed = 0;
+        _timer.timerIsRunning = false;
     }
     private void Update()
     {
@@ -51,15 +58,23 @@ public class PlayerMovement : MonoBehaviour
         {
             _currentSpeed = _playerSpeed * InputManager._instance.MoveInput.x;
             flipX = false;
+            _playerAnim.SetBool("isMove", true);
+            _timer.timerIsRunning = true;
         }
         else if (InputManager._instance.MoveInput.x < 0)
         {
             _currentSpeed = _playerSpeed * InputManager._instance.MoveInput.x;
             flipX = true;
+            if (_playerAnim != null)
+            {
+                _playerAnim.SetBool("isMove", true);
+            }
+            _timer.timerIsRunning = true;
         }
         Vector3 pos = transform.position;
         pos.x += _currentSpeed * Time.deltaTime;
         transform.position = pos;
+        
     }
 
     bool RaycastDetection()
@@ -72,6 +87,7 @@ public class PlayerMovement : MonoBehaviour
     {
         _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, 0f);
         _rb.AddForce(Vector2.up * _jumpForce * Time.deltaTime, ForceMode2D.Impulse);
+        _playerAnim.SetTrigger("Jump");
     }
 
     private void OnDrawGizmosSelected()

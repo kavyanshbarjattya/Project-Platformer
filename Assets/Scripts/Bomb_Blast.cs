@@ -15,11 +15,14 @@ public class Bomb_Blast : MonoBehaviour
 
     [SerializeField] BombSpawner _bombSpawner;
     [SerializeField] Game_Wining _gameWinning;
+
+    [SerializeField] AudioSource _audioSource;
     private void OnEnable()
     {
         _bombSpawner = FindAnyObjectByType<BombSpawner>();
         _gameWinning = FindAnyObjectByType<Game_Wining>();
         StartCoroutine(TimerForBlast());
+        _audioSource = GetComponent<AudioSource>();
     }
 
 
@@ -31,6 +34,8 @@ public class Bomb_Blast : MonoBehaviour
 
     void BombDamage()
     {
+        _audioSource.Play();
+
         Collider2D[] col = Physics2D.OverlapCircleAll(transform.position, _blastRadius , _canDamageLayer);
         foreach (Collider2D c in col)
         {
@@ -47,7 +52,7 @@ public class Bomb_Blast : MonoBehaviour
                         _gameWinning.levelInfo[_gameWinning._currentLevel]._total_enemies--;
 
                     }
-                }
+                }/*
                     PlayerHealth _ph = c.GetComponent<PlayerHealth>();
                 if (_ph != null)
                 {
@@ -55,10 +60,10 @@ public class Bomb_Blast : MonoBehaviour
                     int _remainingPH = _ph.TakeDamage(_damage);
                     if (_remainingPH <= 0)
                     {
-                        Destroy(c.gameObject);
+                        Time.timeScale = 0;
 
                     }
-                }
+                }*/
             }
 
         }

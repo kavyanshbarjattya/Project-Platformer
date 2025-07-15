@@ -11,38 +11,45 @@ public class UI_Manager : MonoBehaviour
 
     private void Start()
     {
-        _bombLimitationTxt.text = _spawner._currentLimit.ToString();
-        _playerLivesTxt.text = _ph._currentHealth.ToString();
+        if (_bombLimitationTxt != null)
+        {
+            _bombLimitationTxt.text = _spawner._currentLimit.ToString();
+        }
+        if (_playerLivesTxt != null)
+        {
+            _playerLivesTxt.text = _ph._currentHealth.ToString();
+        }
     }
 
     private void Update()
     {
-        _bombLimitationTxt.text = _spawner._currentLimit.ToString();
-        _playerLivesTxt.text = _ph._currentHealth.ToString();
+        if (_bombLimitationTxt != null)
+        {
+            _bombLimitationTxt.text = _spawner._currentLimit.ToString();
+        }
+        if (_playerLivesTxt != null)
+        {
+            _playerLivesTxt.text = _ph._currentHealth.ToString();
+        }
     }
 
-    public void ReturnToMenu()
+    public void PlayBtn(string sceneName)
     {
-        // Return to menu
+        SceneManager.LoadScene(sceneName);
     }
-    public void PauseGame()
-    {
-        Time.timeScale = 0;
-        // Activate the pause menu Ui
-    }
-    public void ResumeGame()
+
+    public void ReturnToMenu(string SceneName)
     {
         Time.timeScale = 1;
+        SceneManager.LoadScene(SceneName);
     }
+
     public void RetryBtn()
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
-    public void WinScreen()
-    {
-        Time.timeScale = 0;
-        //WinScreen Activate
-    }
+
     public void QuitGame()
     {
         Application.Quit();

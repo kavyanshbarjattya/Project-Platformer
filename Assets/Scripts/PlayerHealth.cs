@@ -2,6 +2,10 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
+    [SerializeField] AudioSource _playerAudioSource , m_AudioSource;
+    [SerializeField] AudioClip _hurtClip , _deathAudio;
+    [SerializeField] GameObject _gameOverPanel;
+
     public int _health;
 
 
@@ -15,10 +19,12 @@ public class PlayerHealth : MonoBehaviour
 
     private void Update()
     {
-        if(_currentHealth == 0)
+        if(_currentHealth <= 0)
         {
-            // Game Over Screen Activate
-            Time.timeScale = 0;
+            m_AudioSource.clip = _deathAudio;
+            m_AudioSource.Play();
+            _gameOverPanel.SetActive(true);
+            Destroy(gameObject);
         }
     }
 
@@ -27,8 +33,9 @@ public class PlayerHealth : MonoBehaviour
         if (_currentHealth > 0)
         {
             _currentHealth -= damage;
+            _playerAudioSource.clip = _hurtClip;
+            _playerAudioSource.Play();
         }
-        Debug.Log(gameObject.name + "'s health: " + _currentHealth);
         return _currentHealth;
     }
 }

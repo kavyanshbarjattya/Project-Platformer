@@ -10,6 +10,8 @@ public class Enemy_Patrolling : MonoBehaviour
     [SerializeField] float speed = 2f;
     [SerializeField] float waitTimeAtPoint = 0.5f;
 
+    [SerializeField] float _rotateSpeed;
+
     private Vector3 targetPosition;
     private bool waiting = false;
 
@@ -21,10 +23,12 @@ public class Enemy_Patrolling : MonoBehaviour
 
     private void Update()
     {
+        transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, transform.rotation.z + _rotateSpeed * Time.deltaTime);
         if (waiting) return;
 
         // Move towards target
         transform.position = Vector2.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
+        
 
         // Check if reached
         if (Vector2.Distance(transform.position, targetPosition) < 0.05f)
